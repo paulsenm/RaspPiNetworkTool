@@ -1,11 +1,14 @@
 import PySimpleGUI as sg
+import functions
+import data
 
 navCol = [
     [sg.Column(
         [
-        [sg.Button('b1')],
-        [sg.Button('b2')],
-        [sg.Button('b3')]
+        [sg.Button('Configure New Dish', key='dishConfigBtn')],
+        [sg.Button('Set Your IP', key='setIPBtn')],
+        [sg.Button('Ping Connected Device', key='pingDeviceBtn')],
+        [sg.Button('Upload Dish Configs', key='uploadConfigsBtn')]
         ]
     )]
 ]
@@ -15,7 +18,7 @@ col1 = [
         [
             [sg.Text('some text')]
         ], 
-        key='col1'
+        key='dishConfig'
     )]
 ]
 
@@ -24,7 +27,7 @@ col2 = [
         [
             [sg.Text('some different text')]
         ], 
-        key='col2'
+        key='setIP'
     )]
 ]
 
@@ -33,27 +36,40 @@ col3 = [
         [
             [sg.Text('col3 text')]
         ],
-        key='col3'
+        key='pingDevice'
+    )]
+]
+
+col4 = [
+    [sg.Column(
+        [
+            [sg.Text('col3 text')]
+        ],
+        key='uploadConfigs'
     )]
 ]
 
 
 layout = [
-    [navCol], [col1], [col2], [col3]
+    [navCol], [col1], [col2], [col3], [col4]
 ]
 
 window = sg.Window('ShowHide test', layout).Finalize()
 window.Maximize()
-window['col1'].update(visible=False)
-window['col2'].update(visible=False)
-window['col3'].update(visible=False)
+functions.hideCols(window)
+# window['col1'].update(visible=False)
+# window['col2'].update(visible=False)
+# window['col3'].update(visible=False)
 
 while True:
     event, values = window.read()
     if event == sg.WIN_CLOSED:
         break
-    if event == 'b1':
-        window['col2'].update(visible=False)
-        window['col3'].update(visible=False)
-        window['col1'].update(visible=True)
+    for colName in data.colNames:
+        if event == colName + 'Btn':
+            functions.hideCols(window)
+            functions.showCol(colName, window) 
+    # if event == 'b1':
+    #     functions.hideCols(window)
+    #     functions.showCol('col1', window)
 window.close()

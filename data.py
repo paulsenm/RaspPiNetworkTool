@@ -1,0 +1,1 @@
+colNames = ['dishConfig', 'setIP', 'pingDevice', 'uploadConfigs']
