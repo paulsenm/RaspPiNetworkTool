@@ -10,41 +10,92 @@ col1 = sg.Col(
     ]
 )
 
-col2 = sg.Col([[sg.Text('in pane2', text_color='red')],
-               [sg.Text('Pane2')],
-               [sg.Input('', key='-IN2-')],
-               [sg.Text('Pane2')],
-               [sg.Text('Pane2')],
-               ], key='-COL2-', visible=False)
+col2 = sg.Col(
+    [
+        [sg.Text('in pane2', text_color='red')],
+        [sg.Text('Pane2')],
+        [sg.Input('', key='-IN2-')],
+        [sg.Text('Pane2')],
+        [sg.Text('Pane2')],
+    ], 
+    key='-COL2-', visible=False
+)
 
-col3 = sg.Col([[sg.Text('in pane 4', text_color='green')],
-               [sg.Input(key='-IN3-', enable_events=True)],
-               ], key='-COL3-', visible=False)
-col4 = sg.Col([[sg.Text('Column 4', text_color='firebrick')],
-               [sg.Input()],
-               ], key='-COL4-')
-col5 = sg.Col([[sg.Frame('Frame', [[sg.Text('Column 5', text_color='purple')],
-                                   [sg.Input()],
-                                   ])]])
+col3 = sg.Col(
+    [
+        [sg.Text('in pane 4', text_color='green')],
+        [sg.Input(key='-IN3-', enable_events=True)],
+    ], 
+    key='-COL3-', visible=False
+)
 
-layout = [[sg.Text('Click'), sg.Text('', key='-OUTPUT-')],
-          [sg.Button('Remove'), sg.Button('Add')],
-          [sg.Pane([col5,
-                    sg.Col([[sg.Pane([col1, col2, col4], handle_size=15,
-                                     orientation='v', background_color='red', show_handle=True,
-                                     visible=True, key='-PANE-', border_width=0,
-                                     relief=sg.RELIEF_GROOVE), ]]), col3],
-                   orientation='h', background_color=None, size=(500, 500),
-                   relief=sg.RELIEF_RAISED, border_width=0)]
-          ]
+col4 = sg.Col(
+    [
+        [sg.Text('Column 4', text_color='firebrick')],
+        [sg.Input()],
+    ], 
+    key='-COL4-'
+)
+
+col5 = sg.Col(
+    [
+        [sg.Frame('Frame', [
+                                [sg.Text('Column 5', text_color='purple')],
+                                [sg.Input()],
+                            ]
+                )
+        ]
+    ]
+)
+
+layout = [
+            [sg.Text('Click'), sg.Text('', key='-OUTPUT-')],
+            [sg.Button('Remove'), sg.Button('Add')],
+            [sg.Pane(
+                [
+                    col5,
+                    sg.Col(
+                        [
+                            [sg.Pane(
+                                [col1, col2, col4], 
+                                handle_size=15,
+                                orientation='v', 
+                                background_color='red', 
+                                show_handle=True,
+                                visible=True, 
+                                key='-PANE-', 
+                                border_width=0,
+                                relief=sg.RELIEF_GROOVE), 
+                            ]
+                        ]
+                    ), 
+                    col3
+                ],
+                orientation='h', background_color=None, size=(500, 500),
+                relief=sg.RELIEF_RAISED, 
+                border_width=2,
+                key='mainPane'
+                )
+            ]
+        ]
 
 window = sg.Window('Window Title', layout, border_depth=5,
   default_element_size=(15, 1), resizable=True).Finalize()
 window.Maximize()
+# maxWidth = window.size[0]
+# maxHeight = window.size[1]
+
 
 while True:             # Event Loop
     event, values = window.read()
     print(event, values)
+    maxWidth = window.size[0]
+    maxHeight = window.size[1]
+
+    navWidth = maxWidth * 0.25
+    mainWidth = maxWidth * 0.75
+
+    window['mainPane'].set_size((mainWidth, maxHeight))
     if event in (sg.WIN_CLOSED, 'Exit'):
         break
     if event == 'Remove':
