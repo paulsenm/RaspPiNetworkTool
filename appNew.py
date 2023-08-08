@@ -51,7 +51,7 @@ col4 = [
 
 
 layout = [
-    [navCol], [col1], [col2], [col3], [col4]
+    [navCol], [col1, col2, col3, col4]
 ]
 
 window = sg.Window('ShowHide test', layout).Finalize()
