@@ -47,12 +47,27 @@ col5 = sg.Col(
         ]
     ]
 )
+navCol = sg.Col(
+    [
+        [sg.Text('b1')],
+        [sg.Text('b2')]
+    ]
+)
+navPane = sg.Pane(
+    [navCol],
+    orientation='h',
+    background_color='white',
+    size=(100, 800),
+    relief=sg.RELIEF_RAISED,
+    border_width=2,
+    key='navPane'
+)
 
-layout = [
-            [sg.Text('Click'), sg.Text('', key='-OUTPUT-')],
-            [sg.Button('Remove'), sg.Button('Add')],
-            [sg.Pane(
+# navPane = [sg.Text('test')]
+
+mainPane = [sg.Pane(
                 [
+                    navCol,
                     col5,
                     sg.Col(
                         [
@@ -65,25 +80,32 @@ layout = [
                                 visible=True, 
                                 key='-PANE-', 
                                 border_width=0,
-                                relief=sg.RELIEF_GROOVE), 
+                                relief=sg.RELIEF_GROOVE) 
                             ]
                         ]
                     ), 
                     col3
                 ],
-                orientation='h', background_color=None, size=(500, 500),
+                orientation='h', 
+                background_color=None, 
+                size=(500, 500),
                 relief=sg.RELIEF_RAISED, 
                 border_width=2,
                 key='mainPane'
                 )
             ]
+
+layout = [
+            [sg.Text('Click'), sg.Text('', key='-OUTPUT-')],
+            [sg.Button('Remove'), sg.Button('Add')],
+            navCol,
+            mainPane,
         ]
 
-window = sg.Window('Window Title', layout, border_depth=5,
-  default_element_size=(15, 1), resizable=True).Finalize()
+window = sg.Window('Window Title', layout, border_depth=5, default_element_size=(15, 1), resizable=True).Finalize()
 window.Maximize()
-# maxWidth = window.size[0]
-# maxHeight = window.size[1]
+initialMainWidth = window.size[0] * 0.75
+window['mainPane'].set_size((initialMainWidth, initialMainWidth))
 
 
 while True:             # Event Loop
