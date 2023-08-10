@@ -1,26 +1,48 @@
 import PySimpleGUI as sg
 
-pane1 = [sg.Pane(
-        [sg.Col(
+navCol = [
+    [sg.Button('Button1')],
+    [sg.Button('Button2')]
+]
+
+pane1 = sg.Pane(
+    [
+        sg.Col(
             [
                 [sg.Text('Pane1')]
             ]
-        )]
-)]
+        )
+    ]
+)
 
-pane2 = [sg.Pane(
-        [sg.Col(
-            [
-                [sg.Text('Pane2')]
-            ]
-        )]
-)]
+pane2 = sg.Pane(
+        [
+            sg.Col(
+                [
+                    [sg.Text('Pane2')]
+                ]
+            )
+        ],
+        key='pane2'
+    )
 
-layout = [
-    [sg.Col([pane1])], [sg.Col([pane2])]
+
+mainCol = [
+    [
+        pane1,
+        pane2
+    ]
 ]
 
-window = sg.Window('Pane Test 2', layout)
+layout = [
+
+        navCol,
+        [sg.Column(mainCol)]
+
+
+]
+
+window = sg.Window('Pane Test 2', layout, resizable=True, size=(600,600))
 
 while True:
     event, values = window.read()
